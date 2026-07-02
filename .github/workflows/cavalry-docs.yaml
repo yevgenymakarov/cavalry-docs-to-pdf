@@ -1,0 +1,24 @@
+name: "Cavalry Documentation"
+
+on: workflow_dispatch
+
+jobs:
+  generate-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Docusaurus to PDF Action
+        uses: ./
+        with:
+          DOCS_URL: "https://cavalry.studio/docs/"
+          OUTPUT_PDF_FILENAME: "cavalry-docs.pdf"
+          COVER_TITLE: "Cavalry Documentation"
+          EXTRA_ARGS: "--cssStyle=\".tabItem_Ymn6 + .tabItem_Ymn6 {display: block; border-top: 2px solid #2fcd71; margin-top: 20px; padding-top: 20px;} .details_lb9f {background: none !important; box-shadow: none !important; border: 0 !important;} .details_lb9f > summary {display: none;} .collapsibleContent_i85q {border-top: none !important; margin-top: 0 !important; padding-top: 0 !important;} .codeBlockLines_e6Vv {font-size: 90%;} .container_ZzvO {display: none;}\" --protocolTimeout=900000"
+
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Docusaurus-PDF
+          path: "cavalry-docs.pdf"
